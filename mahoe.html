@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Teste de Matemática</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>Teste de Matemática</h1>
+    <p>Tente resolver o problema abaixo:</p>
+    <div id="problem"></div>
+    <input type="text" id="answer" placeholder="Digite a resposta aqui" />
+    <button type="button" onclick="checkAnswer()">Verificar resposta</button>
+    <p id="result"></p>
+    <button type="button" onclick="skipQuestion()">Pular pergunta</button>
+    <p id="score"></p>
+    <button type="button" id="customize">Personalizar</button>
+    <div id="color-picker" style="display:none">
+      <p>Escolha uma cor:</p>
+<ul>
+  <li><button type="button" onclick="setColor('#ff0000')">Vermelho</button></li>
+  <li><button type="button" onclick="setColor('#00ff00')">Verde</button></li>
+  <li><button type="button" onclick="setColor('#0000ff')">Azul</button></li>
+  <li><button type="button" onclick="setColor('#ffff00')">Amarelo</button></li>
+  <li><button type="button" onclick="setColor('#ffa500')">Laranja</button></li>
+  <li><button type="button" onclick="setColor('#800080')">Roxo</button></li>
+  <li><button type="button" onclick="setColor('#000000')">Preto</button></li>
+  <li><button type="button" onclick="setColor('#ffffff')">Branco</button></li>
+  <li><button type="button" onclick="setColor('#fffafa')">Neve</button></li>
+  <li><button type="button" onclick="setColor('#f5f5f5')">Fumaça</button></li>
+</ul>
+
+    </div>
+<script>
+  let correctAnswer;
+  let score = 0;
+
+  function generateProblem() {
+    let operators = ["+", "-", "*", "/", "sqrt"];
+    let operator = operators[Math.floor(Math.random() * operators.length)];
+    let a = Math.floor(Math.random() * 101);
+    let b = Math.floor(Math.random() * 101) + 1;
+    let problem;
+
+    switch (operator) {
+      case "+":
+        problem = `${a} + ${b} = `;
+        correctAnswer = a + b;
+        break;
+      case "-":
+        problem = `${a} - ${b} = `;
+        correctAnswer = a - b;
+        break;
+      case "*":
+        problem = `${a} x ${b} = `;
+        correctAnswer = a * b;
+        break;
+      case "/":
+        problem = `${a * b} / ${b} = `;
+        correctAnswer = a;
+        break;
+      case "sqrt":
+        problem = `sqrt(${a * a}) = `;
+        correctAnswer = a;
+        break;
+    }
+
+    $("#problem").html(problem);
+    $("#answer").val("");
+    $("#answer").focus();
+  }
+
+ function checkAnswer() {
+  let answer = $("#answer").val();
+
+  if (answer == correctAnswer) {
+    $("#result").html("Parabéns, você acertou!");
+    score++;
+  } else {
+    $("#result").html("Ops, tente novamente!");
+    score--;
+  }
+
+  $("#score").html(`Pontuação: ${score}`);
+  generateProblem();
+}
+
+function skipQuestion() {
+  score--;
+  generateProblem();
+}
+
+
+  function setColor(color) {
+    $("body").css("background-color", color);
+    $("#color-picker").hide();
+  }
+
+  $(document).ready(function () {
+    $("#customize").click(function () {
+      $("#color-picker").show();
+    });
+  });
+
+  $(window).on("load", function () {
+    generateProblem();
+  });
+</script>
+
+<img src="logo-removebg-preview.png" alt="Gerador de Problemas">
+  </body>
+</html>
+
